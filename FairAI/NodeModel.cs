@@ -4,9 +4,8 @@ using System.Text;
 
 namespace FairAI
 {
-    public class NeuronModel
+    public class NodeModel : StateModel
     {
-        public double Value {  get; set; }
-
+        public double MiddleValue {  get; set; }
     }
 }

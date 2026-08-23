@@ -4,10 +4,8 @@ using System.Text;
 
 namespace FairAI
 {
-    public class DataModel
+    public class DataModel : StateModel
     {
-        public required string Word {  get; set; }
-        public required double DepthValue {  get; set; }
-        public required double HistoryValue {  get; set; }
+        public string? Word { get; set; }
     }
 }

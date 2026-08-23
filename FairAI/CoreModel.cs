@@ -8,6 +8,6 @@ namespace FairAI
     {
         public required int Lenght {  get; set; }
         public required int Speed {  get; set; }
-        public required int Balance {  get; set; }
+        public required int Position {  get; set; }
     }
 }
