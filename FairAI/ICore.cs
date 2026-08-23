@@ -6,7 +6,7 @@ namespace FairAI
 {
     public interface ICore
     {
-        public List<CoreModel> Cores { get; set; }
-        public StateModel Beam(StateModel request);
+        public NodeModel Beam(NodeModel request);
+        public void Drive();
     }
 }
