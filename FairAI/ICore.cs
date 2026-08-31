@@ -6,7 +6,7 @@ namespace FairAI
 {
     public interface ICore
     {
-        public NodeModel Beam(NodeModel request);
-        public void Drive();
+        public NodeModel Check(NodeModel request);
+        public void Drive(int time);
     }
 }
