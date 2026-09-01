@@ -18,7 +18,7 @@ namespace FairAI
             }
         }
 
-        StateModel ILanguage.Calculate(string request)
+        public StateModel Calculate(string request)
         {
             var ret = new StateModel();
             var dataArray = request.Split(" ");
@@ -32,7 +32,7 @@ namespace FairAI
             return ret;
         }
 
-        string ILanguage.Generate(StateModel dm)
+        public string Generate(StateModel dm)
         {
             var disp = dm.HistoryValue+dm.DepthValue;
             var str = "";
