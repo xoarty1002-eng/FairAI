@@ -1,6 +1,7 @@
 ## About
 
-**FairAI** is a real-time, open-source artificial intelligence governance, routing, and fairness platform.## Features
+**FairAI** is a real-time, open-source artificial intelligence governance, routing, and fairness platform.
+## Features
 
 *   **Governed Lifecycle**: Enforces pre-aggregation policy gating to analyze group-fairness utility before updates take place.
 *   **Decentralized Verification**: Integrates content-addressed publication and on-chain verification mechanisms.
