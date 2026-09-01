@@ -7,10 +7,11 @@ namespace FairAI
 {
     public class DepthPool : IDepth
     {
-        public required List<NeuronModel> Pool { get; set; }
+        public List<NeuronModel> Pool { get; set; }
 
-        public void Depth(int lenght)
+        public DepthPool(int lenght)
         {
+            Pool = new List<NeuronModel>();
             var r = new Random();
             for (var i = 0; i < lenght; i++)
             {
