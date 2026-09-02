@@ -32,87 +32,43 @@ namespace FairAI
             return ret;
         }
 
-
         public string Generate(StateModel dm)
         {
-            if (Data == null || !Data.Any()) return string.Empty;
-
-            // 1. Establish the two baseline target values from your StateModel properties
-            double targetFirst = dm.HistoryValue;
-            double targetSecond = dm.DepthValue;
-
-            string generatedSentence = "";
-            var visited = new HashSet<DataModel>();
-
-            // True = look for closest to First, False = look for closest to Second
-            bool targetToggle = true;
-
+            var disp = 2.0;
+            var dmX = dm.HistoryValue;
+            var dmY = dm.DepthValue;
+            var str = "";
+            DataModel closestObject;
+            var flag = true;
             while (true)
             {
-                DataModel closestObject = null;
-
-                if (targetToggle)
+                if (flag)
                 {
-                    // 2. Find closest value to the FIRST target
-                    closestObject = Data
-                        .Where(x => !visited.Contains(x))
-                        .MinBy(x => Math.Abs(x.HistoryValue - targetFirst));
-
-                    if (closestObject == null) break;
-
-                    // Calculate missing value (error distance) to First
-                    double missingValue = targetFirst - closestObject.HistoryValue;
-
-                    // Add missing value adjustment to the SECOND target
-                    targetSecond += missingValue;
+                    closestObject = Data.MinBy(x =>
+                        Math.Abs(x.HistoryValue - dmX)
+                );
                 }
                 else
                 {
-                    // 3. Find closest value to the SECOND target
-                    closestObject = Data
-                        .Where(x => !visited.Contains(x))
-                        .MinBy(x => Math.Abs(x.DepthValue - targetSecond));
-
-                    if (closestObject == null) break;
-
-                    // Calculate missing value (error distance) to Second
-                    double missingValue = targetSecond - closestObject.DepthValue;
-
-                    // Add missing value adjustment back to the FIRST target
-                    targetFirst += missingValue;
+                    closestObject = Data.MinBy(x =>
+                    Math.Abs(x.DepthValue - dmY)
+                );
                 }
-
-                // 4. Record the word and lock the data node from repeating
-                visited.Add(closestObject);
-                generatedSentence += closestObject.Word + " ";
-
-                // 5. Flip the flag to alternate targets on the next loop iteration
-                targetToggle = !targetToggle;
+                dmX = (closestObject.DepthValue + dmX) / 2;
+                dmY = (closestObject.DepthValue + dmY) / 2;
+                flag = !flag;
+                var pre = (Math.Abs(dmX - dm.DepthValue) + Math.Abs(dmY - dm.HistoryValue));
+                if (pre < disp)
+                {
+                    disp = pre;
+                    str += closestObject.Word + " ";
+                }
+                else
+                {
+                    break;
+                }
             }
-
-            return generatedSentence.Trim();
+            return str;
         }
     }
-
-    /*       public string Generate(StateModel dm)
-           {
-               var disp = 2.0;
-               var str = "";
-               while (true)
-               {
-                   var closestObject = Data.MinBy(x => Math.Abs(Math.Abs(x.HistoryValue - x.DepthValue) - disp));
-                   var pre = Math.Abs(closestObject.HistoryValue + closestObject.DepthValue - dm.HistoryValue+dm.DepthValue);
-                   if (pre < disp)
-                   {
-                       disp = pre;
-                       str += closestObject.Word + " ";
-                   }
-                   else
-                   {
-                       break;
-                   }
-               }
-               return str;
-           }
-     */
 }
