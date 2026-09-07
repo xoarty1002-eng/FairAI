@@ -4,11 +4,11 @@ using System.Text;
 
 namespace FairAI
 {
-    public class CoreDepth : ICore
+    public class CoreService : ICore
     {
         public List<CoreModel> Cores { get; set; }
 
-        public CoreDepth(int count)
+        public CoreService(int count)
         {
             Cores = new List<CoreModel>();
             var r = new Random();
@@ -17,7 +17,7 @@ namespace FairAI
                 Cores.Add(new CoreModel() { RangeValue = i, SpeedValue = r.NextDouble(), PositionValue = r.NextDouble() });
             }
         }
-        public NodeModel Check(NodeModel request)
+        public TermModel Check(TermModel request)
         {
             double normalizedTolerance = 0.0028;
             var time = 1;
@@ -43,7 +43,7 @@ namespace FairAI
                             {
                                 request.MeaningValue = Cores[i].SpeedValue;
                                 request.HistoryValue = Cores[j].SpeedValue;
-                                request.TimeValue = Cores[k].SpeedValue;
+                                request.TermValue = Cores[k].SpeedValue;
                                 return request;
                             }
                         }

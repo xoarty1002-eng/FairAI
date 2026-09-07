@@ -7,7 +7,7 @@ namespace FairAI
     public interface ILanguage
     {
         public void Add(string Word);
-        public string Generate(StateModel dm);
-        public StateModel Calculate(string request);
+        public string Generate(LanguageModel dm);
+        public LanguageModel Calculate(string request);
     }
 }

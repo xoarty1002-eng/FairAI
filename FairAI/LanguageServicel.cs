@@ -5,22 +5,22 @@ using System.Text;
 
 namespace FairAI
 {
-    public class LanguagePool : ILanguage
+    public class LanguageServicel : ILanguage
     {
-        public List<LanguageModel> Data = [];
+        public List<TextModel> Data = [];
 
         public void Add(string Word)
         {
             var r = new Random();
-            if (Data.FirstOrDefault(a => a.TextValue == Word) == default(LanguageModel))
+            if (Data.FirstOrDefault(a => a.TextValue == Word) == default(TextModel))
             {
-                Data.Add(new LanguageModel { TextValue = Word, MeaningValue = r.NextDouble(), HistoryValue = r.NextDouble() });
+                Data.Add(new TextModel { TextValue = Word, MeaningValue = r.NextDouble(), HistoryValue = r.NextDouble() });
             }
         }
 
-        public StateModel Calculate(string request)
+        public LanguageModel Calculate(string request)
         {
-            var ret = new StateModel();
+            var ret = new LanguageModel();
             var dataArray = request.Split(" ");
             foreach (var element in dataArray)
             {
@@ -32,13 +32,13 @@ namespace FairAI
             return ret;
         }
 
-        public string Generate(StateModel dm)
+        public string Generate(LanguageModel dm)
         {
             var disp = 2.0;
             var dmX = dm.HistoryValue;
             var dmY = dm.MeaningValue;
             var str = "";
-            LanguageModel closestObject;
+            TextModel closestObject;
             var flag = true;
             while (true)
             {

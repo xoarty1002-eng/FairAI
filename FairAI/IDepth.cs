@@ -7,7 +7,7 @@ namespace FairAI
     public interface IDepth
     {
         public List<NeuronModel> Pool { get; set; }
-        public NodeModel Down(StateModel request);
-        public StateModel Up(NodeModel request);
+        public TermModel Down(LanguageModel request);
+        public LanguageModel Up(TermModel request);
     }
 }

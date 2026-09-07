@@ -4,8 +4,9 @@ using System.Text;
 
 namespace FairAI
 {
-    public class LanguageModel : StateModel
+    public class LanguageModel
     {
-        public string? TextValue { get; set; }
+        public double MeaningValue {  get; set; }
+        public double HistoryValue {  get; set; }
     }
 }

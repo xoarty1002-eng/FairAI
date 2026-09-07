@@ -4,8 +4,8 @@ using System.Text;
 
 namespace FairAI
 {
-    public class NodeModel : StateModel
+    public class TermModel : LanguageModel
     {
-        public double TimeValue {  get; set; }
+        public double TermValue {  get; set; }
     }
 }
