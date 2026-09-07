@@ -6,6 +6,6 @@ namespace FairAI
 {
     public class NodeModel : StateModel
     {
-        public double MiddleValue {  get; set; }
+        public double TimeValue {  get; set; }
     }
 }

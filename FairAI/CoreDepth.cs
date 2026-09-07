@@ -14,7 +14,7 @@ namespace FairAI
             var r = new Random();
             for (var i = 0; i < count; i++)
             {
-                Cores.Add(new CoreModel() { Range = i, Speed = r.NextDouble(), Position = r.NextDouble() });
+                Cores.Add(new CoreModel() { RangeValue = i, SpeedValue = r.NextDouble(), PositionValue = r.NextDouble() });
             }
         }
         public NodeModel Check(NodeModel request)
@@ -30,9 +30,9 @@ namespace FairAI
                     {
                         for (int k = j + 1; k < Cores.Count; k++)
                         {
-                            double pos1 = Cores[i].Position;
-                            double pos2 = Cores[j].Position;
-                            double pos3 = Cores[k].Position;
+                            double pos1 = Cores[i].PositionValue;
+                            double pos2 = Cores[j].PositionValue;
+                            double pos3 = Cores[k].PositionValue;
                             double axis1 = pos1 >= 0.5 ? pos1 - 0.5 : pos1;
                             double axis2 = pos2 >= 0.5 ? pos2 - 0.5 : pos2;
                             double axis3 = pos3 >= 0.5 ? pos3 - 0.5 : pos3;
@@ -41,9 +41,9 @@ namespace FairAI
                             double d13 = Math.Min(Math.Abs(axis1 - axis3), 0.5 - Math.Abs(axis1 - axis3));
                             if (d12 <= normalizedTolerance && d23 <= normalizedTolerance && d13 <= normalizedTolerance)
                             {
-                                request.DepthValue = Cores[i].Speed;
-                                request.HistoryValue = Cores[j].Speed;
-                                request.MiddleValue = Cores[k].Speed;
+                                request.MeaningValue = Cores[i].SpeedValue;
+                                request.HistoryValue = Cores[j].SpeedValue;
+                                request.TimeValue = Cores[k].SpeedValue;
                                 return request;
                             }
                         }
@@ -57,7 +57,7 @@ namespace FairAI
         {
             foreach (var core in Cores)
             {
-                core.Position = (core.Speed * time) % 1.0;
+                core.PositionValue = (core.SpeedValue * time) % 1.0;
             }
         }
     }

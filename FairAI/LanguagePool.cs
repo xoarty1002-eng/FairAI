@@ -7,14 +7,14 @@ namespace FairAI
 {
     public class LanguagePool : ILanguage
     {
-        public List<DataModel> Data = [];
+        public List<LanguageModel> Data = [];
 
         public void Add(string Word)
         {
             var r = new Random();
-            if (Data.FirstOrDefault(a => a.Word == Word) == default(DataModel))
+            if (Data.FirstOrDefault(a => a.TextValue == Word) == default(LanguageModel))
             {
-                Data.Add(new DataModel { Word = Word, DepthValue = r.NextDouble(), HistoryValue = r.NextDouble() });
+                Data.Add(new LanguageModel { TextValue = Word, MeaningValue = r.NextDouble(), HistoryValue = r.NextDouble() });
             }
         }
 
@@ -25,8 +25,8 @@ namespace FairAI
             foreach (var element in dataArray)
             {
                 Add(element);
-                var e = Data.FirstOrDefault(a => a.Word == element);
-                ret.DepthValue = (ret.DepthValue + e.DepthValue) / 2;
+                var e = Data.FirstOrDefault(a => a.TextValue == element);
+                ret.MeaningValue = (ret.MeaningValue + e.MeaningValue) / 2;
                 ret.HistoryValue = (ret.HistoryValue + e.HistoryValue) / 2;
             }
             return ret;
@@ -36,9 +36,9 @@ namespace FairAI
         {
             var disp = 2.0;
             var dmX = dm.HistoryValue;
-            var dmY = dm.DepthValue;
+            var dmY = dm.MeaningValue;
             var str = "";
-            DataModel closestObject;
+            LanguageModel closestObject;
             var flag = true;
             while (true)
             {
@@ -51,17 +51,17 @@ namespace FairAI
                 else
                 {
                     closestObject = Data.MinBy(x =>
-                    Math.Abs(x.DepthValue - dmY)
+                    Math.Abs(x.MeaningValue - dmY)
                 );
                 }
-                dmX = (closestObject.DepthValue + dmX) / 2;
-                dmY = (closestObject.DepthValue + dmY) / 2;
+                dmX = (closestObject.MeaningValue + dmX) / 2;
+                dmY = (closestObject.MeaningValue + dmY) / 2;
                 flag = !flag;
-                var pre = (Math.Abs(dmX - dm.DepthValue) + Math.Abs(dmY - dm.HistoryValue));
+                var pre = (Math.Abs(dmX - dm.MeaningValue) + Math.Abs(dmY - dm.HistoryValue));
                 if (pre < disp)
                 {
                     disp = pre;
-                    str += closestObject.Word + " ";
+                    str += closestObject.TextValue + " ";
                 }
                 else
                 {

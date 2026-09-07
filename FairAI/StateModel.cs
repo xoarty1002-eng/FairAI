@@ -6,7 +6,7 @@ namespace FairAI
 {
     public class StateModel
     {
-        public double DepthValue {  get; set; }
+        public double MeaningValue {  get; set; }
         public double HistoryValue {  get; set; }
     }
 }

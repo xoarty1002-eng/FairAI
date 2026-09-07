@@ -24,10 +24,10 @@ namespace FairAI
         {
             var replacement = 1.0;
             var replacementindex = 0;
-            request.DepthValue = (Pool[0].Value + request.DepthValue) / 2;
-            if (request.DepthValue < replacement)
+            request.MeaningValue = (Pool[0].Value + request.MeaningValue) / 2;
+            if (request.MeaningValue < replacement)
             {
-                replacement = request.DepthValue;
+                replacement = request.MeaningValue;
                 replacementindex = 0;
             }
             request.HistoryValue = (Pool[1].Value + request.HistoryValue) / 2;
@@ -38,18 +38,18 @@ namespace FairAI
             }
             var node = new NodeModel()
             {
-                DepthValue = (Pool[2].Value + request.DepthValue) / 2,
-                MiddleValue = (Pool[3].Value + (request.HistoryValue + request.DepthValue) / 2) / 2,
+                MeaningValue = (Pool[2].Value + request.MeaningValue) / 2,
+                TimeValue = (Pool[3].Value + (request.HistoryValue + request.MeaningValue) / 2) / 2,
                 HistoryValue = (Pool[4].Value + request.HistoryValue) / 2
             };
-            if (node.DepthValue < replacement)
+            if (node.MeaningValue < replacement)
             {
-                replacement = node.DepthValue;
+                replacement = node.MeaningValue;
                 replacementindex = 2;
             }
-            if (node.MiddleValue < replacement)
+            if (node.TimeValue < replacement)
             {
-                replacement = node.MiddleValue;
+                replacement = node.TimeValue;
                 replacementindex = 3;
             }
             if (node.HistoryValue < replacement)
@@ -59,23 +59,23 @@ namespace FairAI
             }
             for (var i = 5; i + 2 < Pool.Count(); i += 3)
             {
-                var dv = node.DepthValue;
-                var mv = node.MiddleValue;
+                var dv = node.MeaningValue;
+                var mv = node.TimeValue;
                 var hv = node.HistoryValue;
-                node.DepthValue = (Pool[i].Value + node.DepthValue) / 2;
-                node.MiddleValue = (Pool[i + 1].Value + node.MiddleValue) / 2;
+                node.MeaningValue = (Pool[i].Value + node.MeaningValue) / 2;
+                node.TimeValue = (Pool[i + 1].Value + node.TimeValue) / 2;
                 node.HistoryValue = (Pool[i + 2].Value + node.HistoryValue) / 2;
-                node.DepthValue = (node.DepthValue + mv) / 2;
-                node.MiddleValue = (node.MiddleValue + hv) / 2;
+                node.MeaningValue = (node.MeaningValue + mv) / 2;
+                node.TimeValue = (node.TimeValue + hv) / 2;
                 node.HistoryValue = (node.HistoryValue + dv) / 2;
-                if (node.DepthValue < replacement)
+                if (node.MeaningValue < replacement)
                 {
-                    replacement = node.DepthValue;
+                    replacement = node.MeaningValue;
                     replacementindex = i;
                 }
-                if (node.MiddleValue < replacement)
+                if (node.TimeValue < replacement)
                 {
-                    replacement = node.MiddleValue;
+                    replacement = node.TimeValue;
                     replacementindex = i + 1;
                 }
                 if (node.HistoryValue < replacement)
@@ -93,18 +93,18 @@ namespace FairAI
         {
             for (var i = Pool.Count() - 3; i > 1; i -= 3)
             {
-                var dv = request.DepthValue;
-                var mv = request.MiddleValue;
+                var dv = request.MeaningValue;
+                var mv = request.TimeValue;
                 var hv = request.HistoryValue;
-                request.DepthValue = (Pool[i].Value + request.DepthValue) / 2;
-                request.MiddleValue = (Pool[i + 1].Value + request.MiddleValue) / 2;
+                request.MeaningValue = (Pool[i].Value + request.MeaningValue) / 2;
+                request.TimeValue = (Pool[i + 1].Value + request.TimeValue) / 2;
                 request.HistoryValue = (Pool[i + 2].Value + request.HistoryValue) / 2;
-                request.DepthValue = (request.DepthValue + mv) / 2;
-                request.MiddleValue = (request.MiddleValue + hv) / 2;
+                request.MeaningValue = (request.MeaningValue + mv) / 2;
+                request.TimeValue = (request.TimeValue + hv) / 2;
                 request.HistoryValue = (request.HistoryValue + dv) / 2;
             }
-            request.DepthValue = (Pool[0].Value + (request.DepthValue + request.MiddleValue) / 2) / 2;
-            request.HistoryValue = (Pool[1].Value + (request.HistoryValue + request.MiddleValue) / 2) / 2;
+            request.MeaningValue = (Pool[0].Value + (request.MeaningValue + request.TimeValue) / 2) / 2;
+            request.HistoryValue = (Pool[1].Value + (request.HistoryValue + request.TimeValue) / 2) / 2;
             return request;
         }
     }

@@ -6,9 +6,9 @@ namespace FairAI
 {
     public class CoreModel
     {
-        public required double Range {  get; set; }
-        public required double Speed {  get; set; }
-        public required double Position { get; set; }
+        public required double RangeValue {  get; set; }
+        public required double SpeedValue {  get; set; }
+        public required double PositionValue { get; set; }
 
     }
 }

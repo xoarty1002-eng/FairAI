@@ -7,6 +7,5 @@ namespace FairAI
     public class NeuronModel
     {
         public double Value {  get; set; }
-
     }
 }
