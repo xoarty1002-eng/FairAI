@@ -5,9 +5,13 @@ using System.Text;
 
 namespace FairAI
 {
-    public class LanguageServicel : ILanguage
+    public class LanguageService : ILanguage
     {
-        public List<TextModel> Data = [];
+        public List<TextModel> Data { get; set; }
+        public LanguageService() 
+        {
+            Data = new List<TextModel>();
+        }
 
         public void Add(string Word)
         {
