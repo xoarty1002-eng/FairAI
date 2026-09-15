@@ -44,6 +44,7 @@ namespace FairAI
             var str = "";
             TextModel closestObject;
             var flag = true;
+            var wordCount = 0;
             while (true)
             {
                 if (flag)
@@ -66,10 +67,20 @@ namespace FairAI
                 {
                     disp = pre;
                     str += closestObject.TextValue + " ";
+                    wordCount++;
                 }
                 else
                 {
-                    break;
+                    if (wordCount == 0)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        wordCount--;
+                        Data.Remove(closestObject);
+                        Add(closestObject.TextValue);
+                    }
                 }
             }
             return str;
