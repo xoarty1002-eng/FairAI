@@ -30,9 +30,9 @@ namespace FairAI
                     {
                         for (int k = j + 1; k < Cores.Count; k++)
                         {
-                            double pos1 = Cores[i].PositionValue;
-                            double pos2 = Cores[j].PositionValue;
-                            double pos3 = Cores[k].PositionValue;
+                            var pos1 = Cores[i].PositionValue + request.MeaningValue % 1;
+                            var pos2 = Cores[j].PositionValue + request.HistoryValue % 1;
+                            var pos3 = Cores[k].PositionValue + request.TermValue % 1;
                             double axis1 = pos1 >= 0.5 ? pos1 - 0.5 : pos1;
                             double axis2 = pos2 >= 0.5 ? pos2 - 0.5 : pos2;
                             double axis3 = pos3 >= 0.5 ? pos3 - 0.5 : pos3;
