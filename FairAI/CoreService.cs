@@ -20,7 +20,8 @@ namespace FairAI
         public TermModel Check(TermModel request)
         {
             double normalizedTolerance = 0.0028;
-            var time = 1;
+            var closestPoint = Cores.MinBy(p => Math.Pow(p.RangeValue - request.MeaningValue, 2) + Math.Pow(p.SpeedValue - request.TermValue, 2));
+            var time = (int)(closestPoint.PositionValue / request.HistoryValue);
             while (true)
             {
                 Drive(time);
@@ -30,9 +31,9 @@ namespace FairAI
                     {
                         for (int k = j + 1; k < Cores.Count; k++)
                         {
-                            var pos1 = Cores[i].PositionValue + request.MeaningValue % 1;
-                            var pos2 = Cores[j].PositionValue + request.HistoryValue % 1;
-                            var pos3 = Cores[k].PositionValue + request.TermValue % 1;
+                            var pos1 = Cores[i].PositionValue;
+                            var pos2 = Cores[j].PositionValue;
+                            var pos3 = Cores[k].PositionValue;
                             double axis1 = pos1 >= 0.5 ? pos1 - 0.5 : pos1;
                             double axis2 = pos2 >= 0.5 ? pos2 - 0.5 : pos2;
                             double axis3 = pos3 >= 0.5 ? pos3 - 0.5 : pos3;
