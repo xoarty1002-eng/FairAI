@@ -13,12 +13,16 @@ namespace FairAI
             Data = new List<TextModel>();
         }
 
-        public void Add(string Word)
+        public void Add(string Word, double? historyValue)
         {
             var r = new Random();
+            if (historyValue == null) 
+            {
+                historyValue = r.NextDouble();
+            }
             if (Data.FirstOrDefault(a => a.TextValue == Word) == default(TextModel))
             {
-                Data.Add(new TextModel { TextValue = Word, MeaningValue = r.NextDouble(), HistoryValue = r.NextDouble() });
+                Data.Add(new TextModel { TextValue = Word, MeaningValue = r.NextDouble(), HistoryValue = (double)historyValue });
             }
         }
 
@@ -28,7 +32,7 @@ namespace FairAI
             var dataArray = request.Split(" ");
             foreach (var element in dataArray)
             {
-                Add(element);
+                Add(element, null);
                 var e = Data.FirstOrDefault(a => a.TextValue == element);
                 ret.MeaningValue = (ret.MeaningValue + e.MeaningValue) / 2;
                 ret.HistoryValue = (ret.HistoryValue + e.HistoryValue) / 2;
@@ -79,7 +83,7 @@ namespace FairAI
                     {
                         wordCount--;
                         Data.Remove(closestObject);
-                        Add(closestObject.TextValue);
+                        Add(closestObject.TextValue, closestObject.HistoryValue);
                     }
                 }
             }

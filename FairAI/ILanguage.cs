@@ -6,7 +6,7 @@ namespace FairAI
 {
     public interface ILanguage
     {
-        public void Add(string Word);
+        public void Add(string Word, double? historyValue);
         public string Generate(LanguageModel dm);
         public LanguageModel Calculate(string request);
     }

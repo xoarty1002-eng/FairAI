@@ -21,7 +21,7 @@ namespace FairAI
         {
             double normalizedTolerance = 0.0028;
             var closestPoint = Cores.MinBy(p => Math.Pow(p.RangeValue - request.MeaningValue, 2) + Math.Pow(p.SpeedValue - request.TermValue, 2));
-            var time = (int)(closestPoint.PositionValue / request.HistoryValue);
+            var time = (int)(closestPoint.PositionValue / closestPoint.SpeedValue - request.HistoryValue / closestPoint.SpeedValue);
             while (true)
             {
                 Drive(time);
@@ -56,9 +56,10 @@ namespace FairAI
 
         public void Drive(int time)
         {
+            long unixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             foreach (var core in Cores)
             {
-                core.PositionValue = (core.SpeedValue * time) % 1.0;
+                core.PositionValue = core.SpeedValue * (time + (unixTimestamp % 10000)) % 1.0;
             }
         }
     }
