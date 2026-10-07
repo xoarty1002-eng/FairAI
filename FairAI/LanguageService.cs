@@ -87,7 +87,7 @@ namespace FairAI
                     }
                 }
             }
-            return str;
+            return str +$" script:execute({disp});";
         }
     }
 }
