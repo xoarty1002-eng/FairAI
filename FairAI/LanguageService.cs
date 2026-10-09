@@ -87,7 +87,8 @@ namespace FairAI
                     }
                 }
             }
-            return str +$" script:execute({disp});";
+            Add("FairAI", disp);
+            return str;
         }
     }
 }
