@@ -23,6 +23,14 @@ namespace FairAI
             {
                 return;
             }
+            if (Data.FirstOrDefault(a => a.TextValue == "dynamic") == default(TextModel))
+            {
+                Data.Add(new TextModel { TextValue = "dynamic", MeaningValue = 1.0, HistoryValue = 1.0 });
+            }
+            if (Word == "dynamic")
+            {
+                return;
+            }
             var r = new Random();
             if (historyValue == null) 
             {
