@@ -15,22 +15,6 @@ namespace FairAI
 
         public void Add(string Word, double? historyValue)
         {
-            if (Data.FirstOrDefault(a => a.TextValue == "static") == default(TextModel))
-            {
-                Data.Add(new TextModel { TextValue = "static", MeaningValue = 0, HistoryValue = 0 });
-            }
-            if (Word == "static")
-            {
-                return;
-            }
-            if (Data.FirstOrDefault(a => a.TextValue == "dynamic") == default(TextModel))
-            {
-                Data.Add(new TextModel { TextValue = "dynamic", MeaningValue = 1.0, HistoryValue = 1.0 });
-            }
-            if (Word == "dynamic")
-            {
-                return;
-            }
             var r = new Random();
             if (historyValue == null) 
             {

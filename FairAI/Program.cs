@@ -24,11 +24,25 @@ while (true)
 {
     Console.Write("\nUser > ");
     var request = Console.ReadLine();
-    LanguageModel processingState = lp.Calculate(request);
-    TermModel lowerNode = dp.Down(processingState);
-    TermModel verifiedNode = cd.Check(lowerNode);
-    processingState = dp.Up(verifiedNode);
-    var aiResult = lp.Generate(processingState);
+    var index = 1000;
+    var aiResult = "";
+    while (index>0)
+    {
+        index--;
+        LanguageModel processingState = lp.Calculate(request);
+        TermModel lowerNode = dp.Down(processingState);
+        TermModel verifiedNode = cd.Check(lowerNode);
+        processingState = dp.Up(verifiedNode);
+        aiResult = lp.Generate(processingState);
+        if (aiResult.Contains("FairAI"))
+        {
+            break;
+        }
+        else
+        {
+            aiResult = "No answer";
+        }
+    }
     Console.WriteLine($"AI > {aiResult}");
     SaveText(lp.Data);
     SaveCore(cd.Cores);
