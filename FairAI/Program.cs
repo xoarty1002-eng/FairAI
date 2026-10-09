@@ -24,7 +24,7 @@ while (true)
 {
     Console.Write("\nUser > ");
     var request = Console.ReadLine();
-    var index = 1000;
+    var index = 100;
     var aiResult = "";
     while (index>0)
     {
@@ -40,8 +40,12 @@ while (true)
         }
         else
         {
-            aiResult = "No answer";
+            request = aiResult + " FairAI";
         }
+    }
+    if (index == 0)
+    {
+        aiResult = "No response";
     }
     Console.WriteLine($"AI > {aiResult}");
     SaveText(lp.Data);
