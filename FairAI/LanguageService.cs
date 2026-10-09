@@ -17,7 +17,7 @@ namespace FairAI
         {
             if (Data.FirstOrDefault(a => a.TextValue == "static") == default(TextModel))
             {
-                Data.Add(new TextModel { TextValue = Word, MeaningValue = 0, HistoryValue = 0 });
+                Data.Add(new TextModel { TextValue = "static", MeaningValue = 0, HistoryValue = 0 });
             }
             if (Word == "static")
             {
