@@ -13,16 +13,16 @@ namespace FairAI
             Data = new List<TextModel>();
         }
 
-        public void Add(string Word, double? historyValue)
+        public void Add(string Word, double? meaningValue)
         {
             var r = new Random();
-            if (historyValue == null) 
+            if (meaningValue == null) 
             {
-                historyValue = r.NextDouble();
+                meaningValue = r.NextDouble();
             }
             if (Data.FirstOrDefault(a => a.TextValue == Word) == default(TextModel))
             {
-                Data.Add(new TextModel { TextValue = Word, MeaningValue = r.NextDouble(), HistoryValue = (double)historyValue });
+                Data.Add(new TextModel { TextValue = Word, MeaningValue = (double)meaningValue , HistoryValue = r.NextDouble()});
             }
         }
 
@@ -47,7 +47,7 @@ namespace FairAI
             var dmY = dm.MeaningValue;
             var str = "";
             TextModel closestObject;
-            var flag = true;
+            var flag = false;
             var wordCount = 0;
             while (true)
             {
