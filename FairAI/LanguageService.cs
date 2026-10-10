@@ -102,7 +102,7 @@ namespace FairAI
                     {
                         wordCount--;
                         Data.Remove(closestObject);
-                        Add(closestObject.FirstWord, lastWord, closestObject.HistoryValue);
+                        Add(closestObject.FirstWord, closestObject.LastWord, closestObject.HistoryValue);
                     }
                 }
             }
