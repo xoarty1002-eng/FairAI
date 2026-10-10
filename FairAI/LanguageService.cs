@@ -13,16 +13,16 @@ namespace FairAI
             Data = new List<TextModel>();
         }
 
-        public void Add(string Word, double? meaningValue)
+        public void Add(string firstWord, string lastWord, double? meaningValue)
         {
             var r = new Random();
             if (meaningValue == null) 
             {
                 meaningValue = r.NextDouble();
             }
-            if (Data.FirstOrDefault(a => a.TextValue == Word) == default(TextModel))
+            if (Data.FirstOrDefault(a => a.FirstWord == firstWord && a.LastWord == lastWord) == default(TextModel))
             {
-                Data.Add(new TextModel { TextValue = Word, MeaningValue = (double)meaningValue , HistoryValue = r.NextDouble()});
+                Data.Add(new TextModel { FirstWord = firstWord, LastWord = lastWord, MeaningValue = (double)meaningValue , HistoryValue = r.NextDouble()});
             }
         }
 
@@ -30,10 +30,10 @@ namespace FairAI
         {
             var ret = new LanguageModel();
             var dataArray = request.Split(" ");
-            foreach (var element in dataArray)
+            for (var i = 0; i< dataArray.Count()-1; i++)
             {
-                Add(element, null);
-                var e = Data.FirstOrDefault(a => a.TextValue == element);
+                Add(dataArray[i], dataArray[i+1], null);
+                var e = Data.FirstOrDefault(a => a.FirstWord == dataArray[i] && a.LastWord == dataArray[i+1]);
                 ret.MeaningValue = (ret.MeaningValue + e.MeaningValue) / 2;
                 ret.HistoryValue = (ret.HistoryValue + e.HistoryValue) / 2;
             }
@@ -49,19 +49,29 @@ namespace FairAI
             TextModel closestObject;
             var flag = false;
             var wordCount = 0;
+            var lastWord = "";
+            var firstWord = "";
             while (true)
             {
                 if (flag)
                 {
-                    closestObject = Data.MinBy(x =>
-                        Math.Abs(x.HistoryValue - dmX)
-                );
+                    closestObject = Data.Where(a => string.IsNullOrEmpty(lastWord) || a.FirstWord == lastWord).MinBy(x => Math.Abs(x.HistoryValue - dmX));
+                    if (closestObject == null) 
+                    {
+                        Add("FairAI", lastWord, disp);
+                        return str;
+                    }
+                    lastWord = closestObject.LastWord;
                 }
                 else
                 {
-                    closestObject = Data.MinBy(x =>
-                    Math.Abs(x.MeaningValue - dmY)
-                );
+                    closestObject = Data.Where(a => string.IsNullOrEmpty(lastWord) || a.FirstWord == lastWord).MinBy(x => Math.Abs(x.MeaningValue - dmY));
+                    if (closestObject == null)
+                    {
+                        Add("FairAI", lastWord, disp);
+                        return str;
+                    }
+                    lastWord = closestObject.LastWord;
                 }
                 dmX = (closestObject.MeaningValue + dmX) / 2;
                 dmY = (closestObject.MeaningValue + dmY) / 2;
@@ -70,7 +80,16 @@ namespace FairAI
                 if (pre < disp)
                 {
                     disp = pre;
-                    str += closestObject.TextValue + " ";
+                    if (firstWord != lastWord) 
+                    {
+                        firstWord = closestObject.FirstWord;
+                        str += firstWord + " ";
+                    }
+                    else 
+                    {
+                        Add("FairAI", lastWord, disp);
+                        return str;
+                    }
                     wordCount++;
                 }
                 else
@@ -83,11 +102,11 @@ namespace FairAI
                     {
                         wordCount--;
                         Data.Remove(closestObject);
-                        Add(closestObject.TextValue, closestObject.HistoryValue);
+                        Add(closestObject.FirstWord, lastWord, closestObject.HistoryValue);
                     }
                 }
             }
-            Add("FairAI", disp);
+            Add("FairAI", lastWord, disp);
             return str;
         }
     }
